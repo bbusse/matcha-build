@@ -1,0 +1,35 @@
+#!/bin/sh
+
+main() {
+    path="/tmp/matcha/cmd/matcha"
+    archive_path="/tmp/matcha.tar.xz"
+
+    printf "matcha-build\n\n"
+
+    if stat "$path" 2>&1 1>/dev/null; then
+        printf "matcha built successfully\n\n"
+        printf "The binary is located at %s\n" "$path"
+    fi
+
+    if stat "$archive_path" 2>&1 1>/dev/null; then
+        printf "An archive can be found at %s\n" "$archive_path"
+    fi
+
+    while true; do
+        sleep 1;
+    done
+}
+
+go_build() {
+    repo_url="$1"
+    path="$2"
+
+    cd /tmp
+    git clone "$repo_url"
+    cd /tmp/matcha/cmd/matcha
+    go build
+    cd /tmp/matcha/public
+    npm install
+}
+
+main "@"
