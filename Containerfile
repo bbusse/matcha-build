@@ -17,7 +17,8 @@ RUN addgroup -S $USER && adduser -S $USER -G $USER \
     && cd /tmp/ && git clone https://github.com/emersion/matcha \
     && cd /tmp/matcha/cmd/matcha && go build \
     && cd /tmp/matcha/public && npm install \
-    && cd /tmp/matcha && tar cfJ /tmp/matcha.tar.xz cmd/matcha public/
+    && cd /tmp/matcha && tar cfJ /tmp/matcha.tar.xz cmd/matcha public/ \
+    && tar cfJ /tmp/matcha-htdocs.tar.xz public/
 
 USER $USER
 
