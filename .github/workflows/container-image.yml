@@ -36,7 +36,8 @@ jobs:
       with:
         platforms: linux/arm64, linux/amd64
         push: true
-        tags: latest
+        file: Containerfile
+        tags: ghcr.io/bbusse/matcha-build:latest
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
