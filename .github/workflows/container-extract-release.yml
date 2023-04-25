@@ -26,6 +26,42 @@ jobs:
   extract-and-release:
     runs-on: ubuntu-latest
     steps:
+    - name: Extract htdocs from container
+      uses: bbusse/actions-docker-extract@latest
+      id: extract_htdocs
+      with:
+        image: "ghcr.io/bbusse/matcha-build:latest"
+        path: "tmp/matcha-htdocs.tar.xz"
+        platform: linux/amd64
+
+    - name: Extract build artifact from build container
+      uses: bbusse/actions-docker-extract@latest
+      id: extract_arm64
+      with:
+        image: "ghcr.io/bbusse/matcha-build:latest"
+        path: "tmp/matcha.tar.xz"
+        platform: linux/arm64
+
+    - name: Rename build artifact - arm64
+      run: |
+        ls -al ${{ steps.extract_arm64.outputs.destination }}/
+        mv ${{ steps.extract_arm64.outputs.destination }}/matcha.tar.xz \
+           matcha-linux-arm64-latest.tar.xz
+
+    - name: Extract build artifact from build container
+      uses: bbusse/actions-docker-extract@latest
+      id: extract_i386
+      with:
+        image: "ghcr.io/bbusse/matcha-build:latest"
+        path: "tmp/matcha.tar.xz"
+        platform: linux/386
+
+    - name: Rename build artifact - i386
+      run: |
+        ls -al ${{ steps.extract_i386.outputs.destination }}/
+        mv ${{ steps.extract_i386.outputs.destination }}/matcha.tar.xz \
+           matcha-linux-i386-latest.tar.xz
+
     - name: Extract build artifact from build container
       uses: bbusse/actions-docker-extract@latest
       id: extract_amd64
@@ -34,13 +70,11 @@ jobs:
         path: "tmp/matcha.tar.xz"
         platform: linux/amd64
 
-    - name: Extract build artifact from build container
-      uses: bbusse/actions-docker-extract@latest
-      id: extract_htdocs
-      with:
-        image: "ghcr.io/bbusse/matcha-build:latest"
-        path: "tmp/matcha-htdocs.tar.xz"
-        platform: linux/amd64
+    - name: Rename build artifact - amd64
+      run: |
+        ls -al ${{ steps.extract_amd64.outputs.destination }}/
+        mv ${{ steps.extract_amd64.outputs.destination }}/matcha.tar.xz \
+           matcha-linux-amd64-latest.tar.xz
 
     - name: Release
       uses: "marvinpinto/action-automatic-releases@latest"
@@ -50,5 +84,7 @@ jobs:
         prerelease: false
         automatic_release_tag: "latest"
         files: |
-          ${{ steps.extract_amd64.outputs.destination }}/matcha.tar.xz
+          ${{ steps.extract_amd64.outputs.destination }}/matcha-linux-amd64.tar.xz
+          ${{ steps.extract_arm64.outputs.destination }}/matcha-linux-arm64.tar.xz
+          ${{ steps.extract_i386.outputs.destination }}/matcha-linux-i386.tar.xz
           ${{ steps.extract_htdocs.outputs.destination }}/matcha-htdocs.tar.xz
