@@ -86,7 +86,7 @@ jobs:
         prerelease: false
         automatic_release_tag: "latest"
         files: |
-          ${{ steps.extract_amd64.outputs.destination }}/matcha-linux-amd64-latest.tar.xz
-          ${{ steps.extract_arm64.outputs.destination }}/matcha-linux-arm64-latest.tar.xz
-          ${{ steps.extract_i386.outputs.destination }}/matcha-linux-i386-latest.tar.xz
+          matcha-linux-amd64-latest.tar.xz
+          matcha-linux-arm64-latest.tar.xz
+          matcha-linux-i386-latest.tar.xz
           ${{ steps.extract_htdocs.outputs.destination }}/matcha-htdocs.tar.xz
