@@ -47,6 +47,8 @@ jobs:
         ls -al ${{ steps.extract_arm64.outputs.destination }}/
         mv ${{ steps.extract_arm64.outputs.destination }}/matcha.tar.xz \
            matcha-linux-arm64-latest.tar.xz
+        ls -al ${{ steps.extract_arm64.outputs.destination }}/
+        ls -al
 
     - name: Extract build artifact from build container
       uses: bbusse/actions-docker-extract@latest
