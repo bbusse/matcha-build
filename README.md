@@ -4,6 +4,6 @@
 ## Usage
 ```
 $ git clone https://github.com/bbusse/matcha-build
-$ cd matcha
+$ cd matcha-build
 $ podman build -t matcha-build .
 ```
